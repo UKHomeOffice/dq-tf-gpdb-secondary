@@ -7,7 +7,6 @@ variable "data_feeds_cidr_block" {}
 variable "opssubnet_cidr_block" {}
 variable "peering_cidr_block" {}
 variable "az" {}
-variable "dq_database_cidr_block" {}
 
 variable "naming_suffix" {
   default     = false

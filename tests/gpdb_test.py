@@ -22,7 +22,6 @@ class TestE2E(unittest.TestCase):
               }
 
                 appsvpc_id                    = "12345"
-                dq_database_cidr_block        = "10.1.2.0/24"
                 internal_dashboard_cidr_block = "10.1.12.0/24"
                 external_dashboard_cidr_block = "10.1.14.0/24"
                 data_ingest_cidr_block        = "10.1.6.0/24"
