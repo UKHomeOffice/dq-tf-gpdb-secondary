@@ -24,7 +24,7 @@ resource "aws_instance" "master_2" {
   monitoring           = true
 
   tags {
-    Name = "master-2-${var.naming_suffix}"
+    Name = "master-2-${local.naming_suffix}"
   }
 
   ephemeral_block_device {

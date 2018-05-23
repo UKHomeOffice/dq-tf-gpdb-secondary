@@ -24,7 +24,7 @@ resource "aws_instance" "segment_3" {
   monitoring           = true
 
   tags {
-    Name = "segment-3-${var.naming_suffix}"
+    Name = "segment-3-${local.naming_suffix}"
   }
 
   ephemeral_block_device {
