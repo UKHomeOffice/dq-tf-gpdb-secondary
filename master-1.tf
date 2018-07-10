@@ -5,7 +5,7 @@ data "aws_ami" "master_1" {
     name = "name"
 
     values = [
-      "gp-master-host-1*",
+      "dq-gpdb-master*",
     ]
   }
 

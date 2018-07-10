@@ -5,7 +5,7 @@ data "aws_ami" "segment_1" {
     name = "name"
 
     values = [
-      "gp-segment-host-1*",
+      "dq-gpdb-base*",
     ]
   }
 
@@ -16,7 +16,7 @@ data "aws_ami" "segment_1" {
 
 resource "aws_instance" "segment_1" {
   ami                  = "${data.aws_ami.segment_1.id}"
-  instance_type        = "d2.2xlarge"
+  instance_type        = "d2.xlarge"
   key_name             = "gp_secondary"
   placement_group      = "${aws_placement_group.greenplum.id}"
   iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 2)}"

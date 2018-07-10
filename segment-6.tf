@@ -1,11 +1,11 @@
-data "aws_ami" "master_2" {
+data "aws_ami" "segment_6" {
   most_recent = true
 
   filter {
     name = "name"
 
     values = [
-      "dq-gpdb-master*",
+      "dq-gpdb-base*",
     ]
   }
 
@@ -14,17 +14,17 @@ data "aws_ami" "master_2" {
   ]
 }
 
-resource "aws_instance" "master_2" {
-  ami                  = "${data.aws_ami.master_2.id}"
+resource "aws_instance" "segment_6" {
+  ami                  = "${data.aws_ami.segment_6.id}"
   instance_type        = "d2.xlarge"
   key_name             = "gp_secondary"
   placement_group      = "${aws_placement_group.greenplum.id}"
-  iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 1)}"
-  user_data            = "instance_store_1"
+  iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 7)}"
+  user_data            = "instance_store_7"
   monitoring           = true
 
   tags {
-    Name = "master-2-${local.naming_suffix}"
+    Name = "segment-6-${local.naming_suffix}"
   }
 
   ephemeral_block_device {
@@ -42,36 +42,51 @@ resource "aws_instance" "master_2" {
     device_name  = "/dev/sdd"
   }
 
+  ephemeral_block_device {
+    virtual_name = "ephemeral3"
+    device_name  = "/dev/sde"
+  }
+
+  ephemeral_block_device {
+    virtual_name = "ephemeral4"
+    device_name  = "/dev/sdf"
+  }
+
+  ephemeral_block_device {
+    virtual_name = "ephemeral5"
+    device_name  = "/dev/sdg"
+  }
+
   network_interface {
     device_index         = 0
-    network_interface_id = "${aws_network_interface.master_2_0.id}"
+    network_interface_id = "${aws_network_interface.segment_6_0.id}"
   }
 
   network_interface {
     device_index         = 1
-    network_interface_id = "${aws_network_interface.master_2_1.id}"
+    network_interface_id = "${aws_network_interface.segment_6_1.id}"
   }
 
   network_interface {
     device_index         = 2
-    network_interface_id = "${aws_network_interface.master_2_2.id}"
+    network_interface_id = "${aws_network_interface.segment_6_2.id}"
   }
 
   network_interface {
     device_index         = 3
-    network_interface_id = "${aws_network_interface.master_2_3.id}"
+    network_interface_id = "${aws_network_interface.segment_6_3.id}"
   }
 }
 
-resource "aws_network_interface" "master_2_0" {
+resource "aws_network_interface" "segment_6_0" {
   subnet_id = "${aws_subnet.subnets.0.id}"
 
   private_ips = [
-    "10.1.30.4",
+    "10.1.30.30",
   ]
 
   security_groups = [
-    "${aws_security_group.master_sg.id}",
+    "${aws_security_group.segment_sg.id}",
   ]
 
   depends_on = [
@@ -79,15 +94,15 @@ resource "aws_network_interface" "master_2_0" {
   ]
 }
 
-resource "aws_network_interface" "master_2_1" {
+resource "aws_network_interface" "segment_6_1" {
   subnet_id = "${aws_subnet.subnets.1.id}"
 
   private_ips = [
-    "10.1.31.234",
+    "10.1.31.31",
   ]
 
   security_groups = [
-    "${aws_security_group.master_sg.id}",
+    "${aws_security_group.segment_sg.id}",
   ]
 
   depends_on = [
@@ -95,15 +110,15 @@ resource "aws_network_interface" "master_2_1" {
   ]
 }
 
-resource "aws_network_interface" "master_2_2" {
+resource "aws_network_interface" "segment_6_2" {
   subnet_id = "${aws_subnet.subnets.2.id}"
 
   private_ips = [
-    "10.1.32.183",
+    "10.1.32.32",
   ]
 
   security_groups = [
-    "${aws_security_group.master_sg.id}",
+    "${aws_security_group.segment_sg.id}",
   ]
 
   depends_on = [
@@ -111,15 +126,15 @@ resource "aws_network_interface" "master_2_2" {
   ]
 }
 
-resource "aws_network_interface" "master_2_3" {
+resource "aws_network_interface" "segment_6_3" {
   subnet_id = "${aws_subnet.subnets.3.id}"
 
   private_ips = [
-    "10.1.33.86",
+    "10.1.33.33",
   ]
 
   security_groups = [
-    "${aws_security_group.master_sg.id}",
+    "${aws_security_group.segment_sg.id}",
   ]
 
   depends_on = [
