@@ -20,7 +20,7 @@ resource "aws_instance" "segment_5" {
   key_name             = "gp_secondary"
   placement_group      = "${aws_placement_group.greenplum.id}"
   iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 6)}"
-  user_data            = "instance_store_6"
+  user_data            = "instance_store_secondary_6"
   monitoring           = true
 
   tags {
