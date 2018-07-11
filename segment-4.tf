@@ -76,6 +76,14 @@ resource "aws_instance" "segment_4" {
     device_index         = 3
     network_interface_id = "${aws_network_interface.segment_4_3.id}"
   }
+
+  lifecycle {
+    prevent_destroy = true
+
+    ignore_changes = [
+      "ami",
+    ]
+  }
 }
 
 resource "aws_network_interface" "segment_4_0" {

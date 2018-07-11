@@ -61,6 +61,14 @@ resource "aws_instance" "master_2" {
     device_index         = 3
     network_interface_id = "${aws_network_interface.master_2_3.id}"
   }
+
+  lifecycle {
+    prevent_destroy = true
+
+    ignore_changes = [
+      "ami",
+    ]
+  }
 }
 
 resource "aws_network_interface" "master_2_0" {
