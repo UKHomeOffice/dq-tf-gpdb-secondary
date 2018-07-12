@@ -42,21 +42,6 @@ resource "aws_instance" "segment_1" {
     device_name  = "/dev/sdd"
   }
 
-  ephemeral_block_device {
-    virtual_name = "ephemeral3"
-    device_name  = "/dev/sde"
-  }
-
-  ephemeral_block_device {
-    virtual_name = "ephemeral4"
-    device_name  = "/dev/sdf"
-  }
-
-  ephemeral_block_device {
-    virtual_name = "ephemeral5"
-    device_name  = "/dev/sdg"
-  }
-
   network_interface {
     device_index         = 0
     network_interface_id = "${aws_network_interface.segment_1_0.id}"
