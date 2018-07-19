@@ -7,6 +7,8 @@ variable "data_feeds_cidr_block" {}
 variable "opssubnet_cidr_block" {}
 variable "peering_cidr_block" {}
 variable "az" {}
+variable "archive_bucket" {}
+variable "apps_buckets_kms_key" {}
 
 variable "naming_suffix" {
   default     = false

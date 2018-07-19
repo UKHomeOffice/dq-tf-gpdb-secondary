@@ -16,30 +16,33 @@ data "aws_ami" "master_2" {
 
 resource "aws_instance" "master_2" {
   ami                  = "${data.aws_ami.master_2.id}"
-  instance_type        = "d2.xlarge"
+  instance_type        = "i3.xlarge"
   key_name             = "gp_secondary"
   placement_group      = "${aws_placement_group.greenplum.id}"
   iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 1)}"
-  user_data            = "instance_store_secondary_1"
   monitoring           = true
+
+  user_data = <<EOF
+#!/bin/bash
+
+if [ ! -f /bin/aws ]; then
+    curl https://bootstrap.pypa.io/get-pip.py | python
+    pip install awscli
+fi
+
+export DOMAIN_JOIN=`aws --region eu-west-2 ssm get-parameter --name addomainjoin --query 'Parameter.Value' --output text --with-decryption`
+yum -y install sssd realmd krb5-workstation adcli samba-common-tools expect
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+systemctl reload sshd
+chkconfig sssd on
+systemctl start sssd.service
+echo "%Domain\\ Admins@dq.homeoffice.gov.uk ALL=(ALL:ALL) ALL" >>  /etc/sudoers
+expect -c "spawn realm join -U domain.join@dq.homeoffice.gov.uk DQ.HOMEOFFICE.GOV.UK; expect \"*?assword for domain.join@DQ.HOMEOFFICE.GOV.UK:*\"; send -- \"$DOMAIN_JOIN\r\" ; expect eof"
+systemctl restart sssd.service
+EOF
 
   tags {
     Name = "master-2-${local.naming_suffix}"
-  }
-
-  ephemeral_block_device {
-    virtual_name = "ephemeral0"
-    device_name  = "/dev/sdb"
-  }
-
-  ephemeral_block_device {
-    virtual_name = "ephemeral1"
-    device_name  = "/dev/sdc"
-  }
-
-  ephemeral_block_device {
-    virtual_name = "ephemeral2"
-    device_name  = "/dev/sdd"
   }
 
   network_interface {

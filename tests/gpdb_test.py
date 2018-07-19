@@ -32,6 +32,8 @@ class TestE2E(unittest.TestCase):
                 az                            = "eu-west-2a"
                 naming_suffix                 = "apps-preprod-dq"
                 route_table_id                = "12345"
+                apps_buckets_kms_key          = "arn:aws:kms:eu-west-2:123456789:key/654dy74520786elkfugho4576lfk;suh358976"
+                archive_bucket                = "dq-test"
             }
         """
         self.result = Runner(self.snippet).result
