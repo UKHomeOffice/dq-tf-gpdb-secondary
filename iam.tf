@@ -61,7 +61,8 @@ resource "aws_iam_role_policy" "iam_role_policy" {
         {
             "Effect": "Allow",
             "Action": [
-              "s3:PutObject"
+              "s3:PutObject",
+              "s3:GetObject"
             ],
             "Resource": "${var.archive_bucket}/*"
         },
