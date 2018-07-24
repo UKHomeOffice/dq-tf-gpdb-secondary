@@ -30,15 +30,16 @@ if [ ! -f /bin/aws ]; then
     pip install awscli
 fi
 
-sudo touch /etc/profile.d/script_envs.sh
-sudo setfacl -m u:gpadmin:rwx /etc/profile.d/script_envs.sh
+touch /home/gpadmin/script_envs.sh
 
-sudo -u gpadmin echo"
+echo "
 export GP_backup_location=`aws --region eu-west-2 ssm get-parameter --name GP_LOCAL_BACKUP --query 'Parameter.Value' --output text --with-decryption`
 export S3_bucket=`aws --region eu-west-2 ssm get-parameter --name GP_SG3_S3_BACKUP --query 'Parameter.Value' --output text --with-decryption`
-"  > /etc/profile.d/script_envs.sh
+"  > /home/gpadmin/script_envs.sh
 
-su -c "/etc/profile.d/script_envs.sh" - gpadmin
+setfacl -m u:gpadmin:rwx /home/gpadmin/script_envs.sh
+echo "centos ALL=(gpadmin) NOPASSWD: /home/gpadmin/script_envs.sh" >> /etc/sudoers
+su -u gpadmin "/home/gpadmin/script_envs.sh"
 
 export DOMAIN_JOIN=`aws --region eu-west-2 ssm get-parameter --name addomainjoin --query 'Parameter.Value' --output text --with-decryption`
 yum -y install sssd realmd krb5-workstation adcli samba-common-tools expect
@@ -80,6 +81,7 @@ EOF
 
     ignore_changes = [
       "ami",
+      "user_data",
     ]
   }
 }
