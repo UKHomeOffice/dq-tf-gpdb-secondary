@@ -30,15 +30,15 @@ if [ ! -f /bin/aws ]; then
     pip install awscli
 fi
 
-touch /home/gpadmin/script_envs.sh
+sudo touch /home/gpadmin/script_envs.sh
 
-echo "
+sudo echo "
 export GP_backup_location=`aws --region eu-west-2 ssm get-parameter --name GP_LOCAL_BACKUP --query 'Parameter.Value' --output text --with-decryption`
 export S3_bucket=`aws --region eu-west-2 ssm get-parameter --name GP_SG5_S3_BACKUP --query 'Parameter.Value' --output text --with-decryption`
 "  > /home/gpadmin/script_envs.sh
 
-setfacl -m u:gpadmin:rwx /home/gpadmin/script_envs.sh
-echo "centos ALL=(gpadmin) NOPASSWD: /home/gpadmin/script_envs.sh" >> /etc/sudoers
+sudo setfacl -m u:gpadmin:rwx /home/gpadmin/script_envs.sh
+sudo echo "centos ALL=(gpadmin) NOPASSWD: /home/gpadmin/script_envs.sh" >> /etc/sudoers
 su -u gpadmin "/home/gpadmin/script_envs.sh"
 
 export DOMAIN_JOIN=`aws --region eu-west-2 ssm get-parameter --name addomainjoin --query 'Parameter.Value' --output text --with-decryption`
