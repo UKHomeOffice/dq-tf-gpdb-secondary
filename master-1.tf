@@ -16,7 +16,7 @@ data "aws_ami" "master_1" {
 
 resource "aws_instance" "master_1" {
   ami                  = "${data.aws_ami.master_1.id}"
-  instance_type        = "i3.xlarge"
+  instance_type        = "i3.2xlarge"
   key_name             = "gp_secondary"
   placement_group      = "${aws_placement_group.greenplum.id}"
   iam_instance_profile = "${element(aws_iam_instance_profile.instance_profile.*.id, 0)}"
@@ -24,6 +24,11 @@ resource "aws_instance" "master_1" {
 
   user_data = <<EOF
 #!/bin/bash
+
+set -x
+set -e
+
+exec > >(tee /var/log/user-data.log|logger -t user-data ) 2>&1
 
 if [ ! -f /bin/aws ]; then
     curl https://bootstrap.pypa.io/get-pip.py | python
