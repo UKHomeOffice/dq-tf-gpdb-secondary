@@ -42,9 +42,10 @@ export GP_backup_location=`aws --region eu-west-2 ssm get-parameter --name GP_LO
 export S3_bucket=`aws --region eu-west-2 ssm get-parameter --name GP_SG1_S3_BACKUP --query 'Parameter.Value' --output text --with-decryption`
 "  > /home/gpadmin/script_envs.sh
 
-sudo setfacl -m u:gpadmin:rwx /home/gpadmin/script_envs.sh
-sudo echo "centos ALL=(gpadmin) NOPASSWD: /home/gpadmin/script_envs.sh" >> /etc/sudoers
-su -u gpadmin "/home/gpadmin/script_envs.sh"
+sudo chown gpadmin:gpadmin /home/gpadmin/script_envs.sh
+sudo chmod 700 /home/gpadmin/script_envs.sh
+sudo su gpadmin --login
+. /home/gpadmin/script_envs.sh
 
 export DOMAIN_JOIN=`aws --region eu-west-2 ssm get-parameter --name addomainjoin --query 'Parameter.Value' --output text --with-decryption`
 yum -y install sssd realmd krb5-workstation adcli samba-common-tools expect

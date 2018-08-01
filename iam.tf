@@ -50,7 +50,15 @@ resource "aws_iam_role_policy" "iam_role_policy" {
               "arn:aws:ssm:eu-west-2:*:parameter/GP_SG4_S3_BACKUP",
               "arn:aws:ssm:eu-west-2:*:parameter/GP_SG5_S3_BACKUP",
               "arn:aws:ssm:eu-west-2:*:parameter/GP_SG6_S3_BACKUP",
-              "arn:aws:ssm:eu-west-2:*:parameter/addomainjoin"
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.master_1.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.master_2.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.segment_1.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.segment_2.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.segment_3.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.segment_4.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.segment_5.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/${aws_instance.segment_6.id}",
+              "arn:aws:ssm:eu-west-2:*:parameter/addomainjoin",
             ]
         },
         {
