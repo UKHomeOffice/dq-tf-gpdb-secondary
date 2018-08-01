@@ -1,7 +1,7 @@
 locals {
   naming_suffix  = "secondary-gpdb-${var.naming_suffix}"
   master_count   = 2
-  segment_count  = 12
+  segment_count  = 6
   instance_count = "${local.master_count + local.segment_count}"
 }
 
