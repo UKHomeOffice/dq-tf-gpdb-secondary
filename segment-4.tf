@@ -35,17 +35,15 @@ if [ ! -f /bin/aws ]; then
     pip install awscli
 fi
 
-sudo touch /home/gpadmin/script_envs.sh
+touch /home/gpadmin/GP_Shell_Scripts/script_envs.sh
 
-sudo echo "
+echo "
 export GP_backup_location=`aws --region eu-west-2 ssm get-parameter --name GP_LOCAL_BACKUP --query 'Parameter.Value' --output text --with-decryption`
 export S3_bucket=`aws --region eu-west-2 ssm get-parameter --name GP_SG1_S4_BACKUP --query 'Parameter.Value' --output text --with-decryption`
-"  > /home/gpadmin/script_envs.sh
+"  > /home/gpadmin/GP_Shell_Scripts/script_envs.sh
 
-sudo chown gpadmin:gpadmin /home/gpadmin/script_envs.sh
-sudo chmod 700 /home/gpadmin/script_envs.sh
-sudo su gpadmin --login
-. /home/gpadmin/script_envs.sh
+chown gpadmin:gpadmin /home/gpadmin/GP_Shell_Scripts/script_envs.sh
+chmod 700 /home/gpadmin/GP_Shell_Scripts/script_envs.sh
 
 export DOMAIN_JOIN=`aws --region eu-west-2 ssm get-parameter --name addomainjoin --query 'Parameter.Value' --output text --with-decryption`
 yum -y install sssd realmd krb5-workstation adcli samba-common-tools expect
