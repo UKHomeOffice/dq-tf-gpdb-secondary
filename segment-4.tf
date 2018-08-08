@@ -39,7 +39,7 @@ touch /home/gpadmin/GP_Shell_Scripts/script_envs.sh
 
 echo "
 export GP_backup_location=`aws --region eu-west-2 ssm get-parameter --name GP_LOCAL_BACKUP --query 'Parameter.Value' --output text --with-decryption`
-export S3_bucket=`aws --region eu-west-2 ssm get-parameter --name GP_SG1_S4_BACKUP --query 'Parameter.Value' --output text --with-decryption`
+export S3_bucket=`aws --region eu-west-2 ssm get-parameter --name GP_SG4_S3_BACKUP --query 'Parameter.Value' --output text --with-decryption`
 "  > /home/gpadmin/GP_Shell_Scripts/script_envs.sh
 
 chown gpadmin:gpadmin /home/gpadmin/GP_Shell_Scripts/script_envs.sh
